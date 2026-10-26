@@ -26,11 +26,10 @@ nav h2{font-size:16px;margin:5px 8px 12px}
 .navbtn{display:block;width:100%;text-align:left;border:0;background:transparent;padding:10px;border-radius:8px;color:var(--ink);font:14px Arial,sans-serif;cursor:pointer}
 .navbtn:hover{background:#f0e8d8}
 .navbtn.active{background:#762727;color:white}
-.navbtn small{display:block;font-size:11px;opacity:.78;margin-top:3px}
 .panel{padding:clamp(16px,3vw,30px);min-width:0}
 .panel-top{display:flex;gap:16px;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #e4dccd;padding-bottom:18px;margin-bottom:20px}
 .kicker{font:700 11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--red)}
-h2{font-size:clamp(24px,3vw,34px);margin:5px 0 8px;font-weight:600}
+.panel h2{font-size:clamp(24px,3vw,34px);margin:5px 0 8px;font-weight:600}
 .description{line-height:1.6;color:#555044;max-width:850px;margin:0}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 button.utility{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 11px;cursor:pointer;font:12px Arial,sans-serif;color:var(--ink);white-space:nowrap}
@@ -38,8 +37,10 @@ button.utility:hover{border-color:var(--red)}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font:12px Arial,sans-serif;color:var(--muted);margin:0 0 20px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* ---- Árbol ---- */
 .tree{display:flex;flex-direction:column;align-items:center;gap:0}
-.node{width:min(100%,540px);position:relative;border:1px solid #d6cbb8;background:#fff;border-radius:10px;padding:13px 15px;box-shadow:0 3px 8px rgba(30,25,15,.035);cursor:pointer;text-align:center;transition:transform .12s,border-color .12s}
+.node{font:inherit;color:var(--ink);width:min(100%,540px);position:relative;border:1px solid #d6cbb8;background:#fff;border-radius:10px;padding:13px 15px;box-shadow:0 3px 8px rgba(30,25,15,.035);cursor:pointer;text-align:center;transition:transform .12s,border-color .12s}
 .node:hover{border-color:var(--gold);transform:translateY(-1px)}
 .node:focus-visible,.navbtn:focus-visible,button:focus-visible{outline:3px solid #d7ad5d;outline-offset:2px}
 .node.root{background:var(--red-dark);color:#fff8e9;border-color:var(--red-dark)}
@@ -47,27 +48,47 @@ button.utility:hover{border-color:var(--red)}
 .node.ministry{background:#f8efdc;border-color:#d8bd83}
 .node.clan{background:#e8edf3;border-color:#a9bacb}
 .node.palace{background:#f3e7ee;border-color:#d8b8c8}
+.node.selected{border-color:var(--red);box-shadow:0 0 0 2px rgba(140,47,47,.25)}
 .node .name{font-size:16px;font-weight:bold}
 .node .sub{font:12px/1.5 Arial,sans-serif;margin-top:5px;opacity:.85}
-.connector{height:25px;width:1px;background:var(--line);position:relative;flex-shrink:0}
-.connector:after{content:"";position:absolute;bottom:0;left:-4px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--line)}
-.branch{display:flex;justify-content:center;align-items:stretch;gap:12px;width:100%;position:relative;margin-top:0}
-.branch:before{content:"";position:absolute;top:0;left:calc(50% - var(--half,0px));right:calc(50% - var(--half,0px));height:1px;background:var(--line)}
-.branch .child{display:flex;flex-direction:column;align-items:center;flex:1;min-width:0;max-width:320px}
-.branch .child .connector{height:20px}
-.branch .node{width:100%;height:100%}
+.connector{height:25px;width:1px;background:var(--line);flex-shrink:0;position:relative}
+.branch{display:flex;justify-content:center;align-items:stretch;width:100%}
+.branch>.child{position:relative;display:flex;flex-direction:column;align-items:center;flex:1 1 0;min-width:0;max-width:320px;padding:0 6px}
+/* líneas horizontales que unen a los hermanos */
+.branch>.child:before,.branch>.child:after{content:"";position:absolute;top:0;width:50%;border-top:1px solid var(--line)}
+.branch>.child:before{left:0}
+.branch>.child:after{right:0}
+.branch>.child:first-child:before,.branch>.child:last-child:after{display:none}
+.child>.connector{height:20px}
+.child>.connector:after{content:"";position:absolute;bottom:0;left:-4px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--line)}
+.branch>.child>.node{width:100%;flex:1}
 .branch .node .name{font-size:14px}
 .branch .node .sub{font-size:11px}
-.tree-note{font:12px/1.6 Arial,sans-serif;color:var(--muted);text-align:center;margin:18px auto 0;max-width:750px}
+.hint{font:11px/1.4 Arial,sans-serif;color:var(--muted);margin-top:6px;text-align:center}
+.substack{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.substack .node{padding:8px 10px}
+
 .details{margin-top:24px;border-top:1px solid #e4dccd;padding-top:18px}
 .details h3{margin:0 0 10px;font-size:20px}
 .details p{line-height:1.65;color:#555044;margin:0 0 10px}
-.details ul{padding-left:22px;line-height:1.7;margin:8px 0}
 .pill{display:inline-block;border-radius:100px;padding:5px 9px;background:#f0e8d8;color:#5f4b2c;font:11px Arial,sans-serif;margin:3px 4px 0 0}
-.note{border-left:3px solid var(--gold);padding:10px 13px;background:#f8f1e3;color:#514735;line-height:1.6;margin-top:14px;font-size:14px}
+.pill.type{background:#762727;color:#fff}
 footer{max-width:1400px;margin:0 auto;padding:0 22px 28px;font:12px/1.6 Arial,sans-serif;color:var(--muted)}
-@media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:static;max-height:none}.navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}.navgroup{grid-column:1/-1}.panel-top{display:block}.actions{margin-top:14px}.branch{gap:6px}.node{padding:10px 8px}.branch .node .name{font-size:12px}.branch .node .sub{font-size:10px}}
-@media(max-width:520px){main{padding:12px}.navlist{grid-template-columns:1fr 1fr}.branch{flex-wrap:wrap}.branch .child{flex:1 1 44%;max-width:none}.branch:before{display:none}.branch .child .connector{height:12px}.node{font-size:13px}.node .name{font-size:14px}.node .sub{font-size:11px}}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  nav{position:static;max-height:none}
+  .navlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}
+  .navgroup{grid-column:1/-1}
+  .panel-top{display:block}
+  .actions{margin-top:14px}
+  .branch{flex-wrap:wrap;row-gap:10px}
+  .branch>.child{flex:1 1 44%;max-width:none}
+  .branch>.child:before,.branch>.child:after{display:none}
+  .child>.connector{height:10px}
+  .child>.connector:after{display:none}
+  .node{padding:10px 8px}
+}
+@media(max-width:520px){main{padding:12px}.navlist{grid-template-columns:1fr}}
 @media print{body{background:white}header{background:#652222!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.layout{display:block}nav,.actions{display:none!important}.panel{box-shadow:none;border:0;padding:0}.node{break-inside:avoid;box-shadow:none}.branch{break-inside:avoid}footer{padding-top:20px}}
 </style>
 </head>
@@ -85,7 +106,7 @@ footer{max-width:1400px;margin:0 auto;padding:0 22px 28px;font:12px/1.6 Arial,sa
     <h2>Explorar organigramas</h2>
     <div class="navlist" id="navlist"></div>
   </nav>
-  <section class="panel" aria-live="polite">
+  <section class="panel">
     <div class="panel-top">
       <div>
         <div class="kicker" id="sectionKicker">Vista general</div>
@@ -105,7 +126,7 @@ footer{max-width:1400px;margin:0 auto;padding:0 22px 28px;font:12px/1.6 Arial,sa
       <span><i class="dot" style="background:#d8b8c8"></i>Palacio interior</span>
     </div>
     <div id="diagram" class="tree"></div>
-    <div class="details" id="details">
+    <div class="details" id="details" aria-live="polite">
       <h3 id="detailTitle">Cómo usar este organigrama</h3>
       <p id="detailText">Pulsa cualquier recuadro para ver sus responsabilidades y límites de autoridad.</p>
       <div id="detailExtra"></div>
@@ -157,7 +178,6 @@ const N = {
  daimyo: node("daimyo","Daimyō / señor de familia","Gobierna dominios y subordinados de su casa","clan"),
  clanCouncil: node("clanCouncil","Consejo y funcionarios del Clan","Administración, finanzas y asuntos internos","clan"),
  clanArmy: node("clanArmy","Mando militar del Clan","Generales, comandantes, oficiales y tropas","clan"),
- courtesanPatron: node("courtesanPatron","Patrono o casa noble","Patrocinio y protección de la casa","palace"),
  courtesanManager: node("courtesanManager","Administradora de la casa","Gestión, cuentas y personal","palace"),
  highCourtesans: node("highCourtesans","Cortesanas de prestigio","Clientes importantes, redes sociales e información","palace"),
  courtesans: node("courtesans","Cortesanas","Recepciones, conversación, arte y entretenimiento","palace"),
@@ -196,8 +216,9 @@ const N = {
  custody: node("custody","Custodia de prisioneros","Traslados y seguridad según mandato")
 };
 
+/* Los ids de las raíces reutilizan el id del cargo para que tengan su descripción propia. */
 const sections = [
- {id:"overview",label:"Imperio completo",group:"Vista general",title:"Todo el Imperio",desc:"Mapa de las grandes ramas de poder. Las ramas paralelas responden a la autoridad imperial, pero no se subordinan automáticamente entre sí.",root:()=>node("overviewRoot","Emperador de Rokugán","Soberano supremo","root",[
+ {id:"overview",label:"Imperio completo",group:"Vista general",title:"Todo el Imperio",desc:"Mapa de las grandes ramas de poder. Las ramas paralelas responden a la autoridad imperial, pero no se subordinan automáticamente entre sí.",root:()=>node("emperor","Emperador de Rokugán","Soberano supremo","root",[
    node("overviewHouse","Casa Imperial y Palacio","Emperatriz, heredero, consortes y administración palaciega","palace",[N.empress,N.heir,N.princes,N.palaceAdmin]),
    node("overviewCourt","Corte y Gobierno central","Consejo, secretaría y Seis Ministerios","ministry",[N.council,N.secretariat,N.personnel,N.finance,N.rites,N.war,N.justice,N.works]),
    node("overviewOversight","Supervisión imperial","Control administrativo y denuncias","special",[N.censorate]),
@@ -205,24 +226,33 @@ const sections = [
    node("overviewSpecial","Cargos especiales","Funciones específicas según época","special",[N.ruby,N.jade,N.imperialArmy]),
    node("overviewClans","Grandes Clanes","Territorios, casas nobles y ejércitos propios","clan",[N.clanChampion,N.governorsGeneral])
  ])},
- {id:"court",label:"Corte y Consejo",group:"Gobierno central",title:"Corte y Consejo Imperial",desc:"El entorno político que coordina decisiones, edictos, audiencias y nombramientos. La influencia cortesana no equivale siempre a mando legal.",root:()=>node("courtRoot","Emperador","Autoridad soberana","root",[N.council,N.chancellor,N.secretariat])},
- {id:"personnel",label:"Ministerio de Personal",group:"Los Seis Ministerios",title:"Ministerio de Personal",desc:"Administra la carrera de los funcionarios: nombramientos, evaluaciones, ascensos, traslados y rangos.",root:()=>node("personnelRoot","Ministro de Personal","Dirección del ministerio","ministry",[N.appointments,N.evaluation,N.ranks,N.pensions])},
- {id:"finance",label:"Hacienda y Economía",group:"Los Seis Ministerios",title:"Ministerio de Hacienda y Economía",desc:"Gestiona los recursos del Estado, los impuestos, el censo fiscal, las reservas y la supervisión de cuentas.",root:()=>node("financeRoot","Ministro de Hacienda","Dirección del ministerio","ministry",[N.tax,N.treasury,N.census,N.granaries,N.trade,N.audit])},
- {id:"rites",label:"Ministerio de Ritos",group:"Los Seis Ministerios",title:"Ministerio de Ritos",desc:"Administra el protocolo, las ceremonias imperiales, la recepción diplomática, los exámenes y los ritos oficiales.",root:()=>node("ritesRoot","Ministro de Ritos","Dirección del ministerio","ministry",[N.ceremonies,N.protocol,N.diplomacy,N.exams,N.temples,N.calendar])},
- {id:"war",label:"Ministerio de Guerra",group:"Los Seis Ministerios",title:"Ministerio de Guerra",desc:"Administra los asuntos militares imperiales. La dirección administrativa no equivale necesariamente al mando de campo.",root:()=>node("warRoot","Ministro de Guerra","Dirección administrativa militar","ministry",[node("warAppointments","Nombramientos militares","Registros, ascensos y traslados"),node("warArms","Armamento y arsenales","Inventarios, equipos y suministros"),node("warGarrisons","Guarniciones","Fortalezas y destacamentos"),node("warMobilization","Movilización","Levas y transporte autorizados"),node("warIntel","Informes estratégicos","Amenazas y situación de fronteras")])},
- {id:"justice",label:"Ministerio de Justicia",group:"Los Seis Ministerios",title:"Ministerio de Justicia",desc:"Administra la justicia ordinaria. La Magistratura Esmeralda constituye una vía imperial especializada en asuntos de su jurisdicción.",root:()=>node("justiceRoot","Ministro de Justicia","Dirección de la justicia ordinaria","ministry",[N.legislation,N.trials,N.sentences,N.prisons,N.review])},
- {id:"works",label:"Obras Públicas",group:"Los Seis Ministerios",title:"Ministerio de Obras Públicas",desc:"Construye y mantiene infraestructura estatal: edificios, caminos, puentes, canales y talleres.",root:()=>node("worksRoot","Ministro de Obras","Dirección del ministerio","ministry",[N.construction,N.roads,N.water,N.artisans,N.inspection])},
+ {id:"court",label:"Corte y Consejo",group:"Gobierno central",title:"Corte y Consejo Imperial",desc:"El entorno político que coordina decisiones, edictos, audiencias y nombramientos. La influencia cortesana no equivale siempre a mando legal.",root:()=>node("emperor","Emperador","Autoridad soberana","root",[N.council,N.chancellor,N.secretariat])},
+ {id:"personnel",label:"Ministerio de Personal",group:"Los Seis Ministerios",title:"Ministerio de Personal",desc:"Administra la carrera de los funcionarios: nombramientos, evaluaciones, ascensos, traslados y rangos.",root:()=>node("personnel","Ministro de Personal","Dirección del ministerio","ministry",[N.appointments,N.evaluation,N.ranks,N.pensions])},
+ {id:"finance",label:"Hacienda y Economía",group:"Los Seis Ministerios",title:"Ministerio de Hacienda y Economía",desc:"Gestiona los recursos del Estado, los impuestos, el censo fiscal, las reservas y la supervisión de cuentas.",root:()=>node("finance","Ministro de Hacienda","Dirección del ministerio","ministry",[N.tax,N.treasury,N.census,N.granaries,N.trade,N.audit])},
+ {id:"rites",label:"Ministerio de Ritos",group:"Los Seis Ministerios",title:"Ministerio de Ritos",desc:"Administra el protocolo, las ceremonias imperiales, la recepción diplomática, los exámenes y los ritos oficiales.",root:()=>node("rites","Ministro de Ritos","Dirección del ministerio","ministry",[N.ceremonies,N.protocol,N.diplomacy,N.exams,N.temples,N.calendar])},
+ {id:"war",label:"Ministerio de Guerra",group:"Los Seis Ministerios",title:"Ministerio de Guerra",desc:"Administra los asuntos militares imperiales. La dirección administrativa no equivale necesariamente al mando de campo.",root:()=>node("war","Ministro de Guerra","Dirección administrativa militar","ministry",[node("warAppointments","Nombramientos militares","Registros, ascensos y traslados"),node("warArms","Armamento y arsenales","Inventarios, equipos y suministros"),node("warGarrisons","Guarniciones","Fortalezas y destacamentos"),node("warMobilization","Movilización","Levas y transporte autorizados"),node("warIntel","Informes estratégicos","Amenazas y situación de fronteras")])},
+ {id:"justice",label:"Ministerio de Justicia",group:"Los Seis Ministerios",title:"Ministerio de Justicia",desc:"Administra la justicia ordinaria. La Magistratura Esmeralda constituye una vía imperial especializada en asuntos de su jurisdicción.",root:()=>node("justice","Ministro de Justicia","Dirección de la justicia ordinaria","ministry",[N.legislation,N.trials,N.sentences,N.prisons,N.review])},
+ {id:"works",label:"Obras Públicas",group:"Los Seis Ministerios",title:"Ministerio de Obras Públicas",desc:"Construye y mantiene infraestructura estatal: edificios, caminos, puentes, canales y talleres.",root:()=>node("works","Ministro de Obras","Dirección del ministerio","ministry",[N.construction,N.roads,N.water,N.artisans,N.inspection])},
  {id:"censorate",label:"Censorado Imperial",group:"Organismos imperiales",title:"Censorado Imperial",desc:"Inspecciona a los funcionarios, revisa la conducta administrativa y presenta denuncias. No siempre es el tribunal que dicta la sentencia.",root:()=>node("censorateRoot","Jefe del Censorado","Responde a la autoridad imperial","special",[N.inspectors,node("censorAccounts","Revisión de cuentas","Auditorías y control administrativo"),node("censorReports","Informes y acusaciones","Denuncias elevadas a la autoridad competente"),node("censorConduct","Conducta oficial","Abuso de poder, negligencia y corrupción")])},
- {id:"emerald",label:"Magistratura Esmeralda",group:"Organismos imperiales",title:"Magistratura Esmeralda",desc:"Estructura de investigación y aplicación de la ley imperial. El alcance exacto depende del mandato y de las reglas de la campaña.",root:()=>node("emeraldRoot","Campeón Esmeralda","Superior principal de la magistratura","special",[N.orders,N.emeraldMag,N.investigators,N.records,N.custody])},
+ {id:"emerald",label:"Magistratura Esmeralda",group:"Organismos imperiales",title:"Magistratura Esmeralda",desc:"Estructura de investigación y aplicación de la ley imperial. El alcance exacto depende del mandato y de las reglas de la campaña.",root:()=>node("emeraldChampion","Campeón Esmeralda","Superior principal de la magistratura","special",[N.orders,{...N.emeraldMag,children:[N.yoriki,N.scribes,N.guards]},N.investigators,N.records,N.custody])},
  {id:"special",label:"Campeones Rubí y Jade",group:"Organismos imperiales",title:"Cargos especiales de Rokugán",desc:"Instituciones que puedes activar según la época de la campaña. Sus competencias no los convierten automáticamente en superiores del Campeón Esmeralda.",root:()=>node("specialRoot","Autoridad imperial","Cargos especializados según época","root",[N.ruby,N.jade])},
- {id:"palace",label:"Palacio Interior",group:"Casa Imperial",title:"Casa Imperial y Palacio Interior",desc:"La familia imperial y la administración doméstica del palacio. La jerarquía interna no es una cadena de mando sobre todos los ministerios.",root:()=>node("palaceRoot","Emperador","Casa soberana","root",[N.empress,N.heir,N.princes,N.palaceAdmin])},
- {id:"consorts",label:"Consortes y concubinas",group:"Casa Imperial",title:"Jerarquía palaciega femenina",desc:"Rangos ilustrativos inspirados en cortes históricas. Adapta los títulos a la época y al estilo de tu Rokugán.",root:()=>node("consortsRoot","Emperatriz","Cabeza ceremonial del Palacio Interior","palace",[N.consorts,N.concubines,N.ladies])},
+ {id:"palace",label:"Palacio Interior",group:"Casa Imperial",title:"Casa Imperial y Palacio Interior",desc:"La familia imperial y la administración doméstica del palacio. La jerarquía interna no es una cadena de mando sobre todos los ministerios.",root:()=>node("emperor","Emperador","Casa soberana","root",[N.empress,N.heir,N.princes,N.palaceAdmin])},
+ {id:"consorts",label:"Consortes y concubinas",group:"Casa Imperial",title:"Jerarquía palaciega femenina",desc:"Rangos ilustrativos inspirados en cortes históricas. Adapta los títulos a la época y al estilo de tu Rokugán.",root:()=>node("empress","Emperatriz","Cabeza ceremonial del Palacio Interior","palace",[N.consorts,N.concubines,N.ladies])},
  {id:"eunuchs",label:"Eunucos y servicio palaciego",group:"Casa Imperial",title:"Administración del Palacio",desc:"Acceso, documentos, suministros, mensajería y funcionamiento cotidiano del palacio.",root:()=>node("palaceAdminRoot","Administrador del Palacio","Coordina dependencias y servicio","palace",[N.eunuchs,node("kitchen","Cocinas y abastecimiento","Alimentos, almacenes y distribución","palace"),node("wardrobe","Vestuario y ajuar","Ropa, objetos y mantenimiento","palace"),node("access","Acceso y mensajería","Credenciales, recados y circulación de documentos","palace"),node("security","Seguridad interior","Guardias y control de accesos","palace")])},
  {id:"courtesans",label:"Cortesanas y casas de entretenimiento",group:"Corte y sociedad",title:"Cortesanas y patronazgo",desc:"Una estructura social y económica paralela a la burocracia. El rango depende de la casa, el patrono, el prestigio y las relaciones.",root:()=>node("courtesanRoot","Patrono o casa noble","Financia, protege o contrata la casa","palace",[N.courtesanManager,N.highCourtesans,N.courtesans,N.apprentices,N.servants])},
  {id:"territory",label:"Administración territorial",group:"Territorios",title:"Administración territorial",desc:"Cadena administrativa inspirada en provincias, prefecturas y distritos históricos. No todos los niveles deben existir en cada región.",root:()=>node("territoryRoot","Gobierno central / señor territorial","Autoridad administrativa según el dominio","root",[N.governorsGeneral,N.governor,N.prefect,N.districtMag,N.localOfficials,N.people])},
- {id:"clans",label:"Jerarquía de un Gran Clan",group:"Territorios",title:"Gobierno interno de un Gran Clan",desc:"El Clan gobierna sus territorios y subordinados, pero permanece dentro del orden imperial. Sus estructuras internas varían.",root:()=>node("clanRoot","Emperador","Soberanía imperial","root",[N.clanChampion])},
- {id:"clanarmy",label:"Ejército imperial y de Clan",group:"Militar",title:"Cadenas de mando militar",desc:"Distingue la administración militar imperial de los ejércitos que responden a los Campeones de Clan.",root:()=>node("armyRoot","Autoridad soberana","La delegación define el mando efectivo","root",[N.imperialArmy,N.clanArmy])}
+ {id:"clans",label:"Jerarquía de un Gran Clan",group:"Territorios",title:"Gobierno interno de un Gran Clan",desc:"El Clan gobierna sus territorios y subordinados, pero permanece dentro del orden imperial. Sus estructuras internas varían.",root:()=>node("clanChampion","Campeón del Clan","Gobierna dentro del orden imperial y responde al Emperador","clan",[N.daimyo,N.clanCouncil,N.clanArmy])},
+ {id:"clanarmy",label:"Ejército imperial y de Clan",group:"Militar",title:"Cadenas de mando militar",desc:"Distingue la administración militar imperial de los ejércitos que responden a los Campeones de Clan.",root:()=>node("armyRoot","Autoridad soberana","La delegación define el mando efectivo","root",[{...N.imperialArmy,children:[N.generals]},N.clanArmy])}
 ];
+
+/* Cargos que, además de sus detalles, abren un organigrama propio. */
+const LINKS = {
+ overviewHouse:"palace", overviewCourt:"court", overviewOversight:"censorate",
+ overviewEmerald:"emerald", overviewSpecial:"special", overviewClans:"clans",
+ council:"court", emeraldChampion:"emerald", clanChampion:"clans",
+ ruby:"special", jade:"special", imperialArmy:"clanarmy", clanArmy:"clanarmy",
+ governorsGeneral:"territory", palaceAdmin:"eunuchs", empress:"consorts"
+};
 
 const descriptions = {
  emperor:["Emperador de Rokugán","Fuente última de la autoridad imperial, los nombramientos soberanos y los decretos.","Puede delegar funciones, pero ninguna institución ordinaria está por encima de su autoridad."],
@@ -257,8 +287,12 @@ const descriptions = {
 function infoFor(n){
  return descriptions[n.id] || [n.name, n.sub || "Cargo de la estructura administrativa propuesta para la campaña.", "La autoridad concreta depende de su nombramiento, jurisdicción y las reglas de la mesa."];
 }
+function linkFor(n){
+ const id = LINKS[n.id] || (sections.some(s=>s.id===n.id) ? n.id : null);
+ return id && id !== selected ? id : null;
+}
+
 let selected = "overview";
-let selectedNode = null;
 let expanded = false;
 
 function buildNav(){
@@ -266,9 +300,12 @@ function buildNav(){
  let current="";
  sections.forEach(s=>{
    if(s.group!==current){current=s.group;const g=document.createElement("div");g.className="navgroup";g.textContent=current;nav.appendChild(g)}
-   const b=document.createElement("button");b.className="navbtn"+(s.id===selected?" active":"");b.textContent=s.label;
-   b.addEventListener("click",()=>showSection(s.id));nav.appendChild(b);
+   const b=document.createElement("button");b.className="navbtn";b.dataset.id=s.id;b.textContent=s.label;
+   b.addEventListener("click",()=>showSection(s.id,true));nav.appendChild(b);
  });
+}
+function updateNav(){
+ document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.id===selected));
 }
 function makeNode(n){
  const b=document.createElement("button");
@@ -276,9 +313,9 @@ function makeNode(n){
  const name=document.createElement("div");name.className="name";name.textContent=n.name;b.appendChild(name);
  if(n.sub){const sub=document.createElement("div");sub.className="sub";sub.textContent=n.sub;b.appendChild(sub)}
  b.addEventListener("click",()=>{
-   const destination = sections.find(s => s.id === n.id);
-   if (destination) showSection(destination.id);
-   else showDetails(n);
+   document.querySelectorAll(".node.selected").forEach(x=>x.classList.remove("selected"));
+   b.classList.add("selected");
+   showDetails(n);
  });
  return b;
 }
@@ -290,54 +327,78 @@ function renderTree(n,container){
  n.children.forEach(ch=>{
    const child=document.createElement("div");child.className="child";
    const c=document.createElement("div");c.className="connector";child.appendChild(c);
-   if(expanded && ch.children && ch.children.length){
-     const subWrap=document.createElement("div");subWrap.className="subtree";renderTree(ch,subWrap);child.appendChild(subWrap);
+   child.appendChild(makeNode(ch));
+   const hasKids = ch.children && ch.children.length;
+   if(expanded && hasKids){
+     const stack=document.createElement("div");stack.className="substack";
+     ch.children.forEach(g=>stack.appendChild(makeNode(g)));
+     child.appendChild(stack);
    } else {
-     child.appendChild(makeNode(ch));
-     if(ch.children&&ch.children.length){
-       const hint=document.createElement("div");hint.className="tree-note";hint.textContent="Selecciona para abrir su organigrama";child.appendChild(hint);
+     const parts=[];
+     if(hasKids) parts.push(ch.children.length+" dependencias");
+     if(linkFor(ch)) parts.push("tiene organigrama propio");
+     if(parts.length){
+       const hint=document.createElement("div");hint.className="hint";hint.textContent=parts.join(" · ");child.appendChild(hint);
      }
    }
    branch.appendChild(child);
  });
  container.appendChild(branch);
 }
-function showSection(id){
- selected=id;expanded=false;selectedNode=null;
+function renderDiagram(){
+ const s=sections.find(x=>x.id===selected)||sections[0];
+ const d=document.getElementById("diagram");d.innerHTML="";renderTree(s.root(),d);
+}
+function showSection(id,scroll){
+ selected=id;expanded=false;
  const s=sections.find(x=>x.id===id)||sections[0];
  document.getElementById("sectionKicker").textContent=s.group;
  document.getElementById("sectionTitle").textContent=s.title;
  document.getElementById("sectionDescription").textContent=s.desc;
- const diagram=document.getElementById("diagram");diagram.innerHTML="";renderTree(s.root(),diagram);
+ renderDiagram();
  document.getElementById("detailTitle").textContent="Cómo usar este organigrama";
- document.getElementById("detailText").textContent="Pulsa cualquier recuadro para consultar sus funciones y límites. Los cargos con ramas se pueden explorar desde el menú lateral.";
+ document.getElementById("detailText").textContent="Pulsa cualquier recuadro para consultar sus funciones y límites. Si el cargo tiene un organigrama propio, aparecerá un botón para abrirlo.";
  document.getElementById("detailExtra").innerHTML="";
  document.getElementById("expandAll").textContent="Mostrar detalles";
- buildNav();
+ updateNav();
+ if(scroll && window.innerWidth<=850){
+   document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
+ }
 }
 function showDetails(n){
- selectedNode=n;
  const [title,desc,limits]=infoFor(n);
  document.getElementById("detailTitle").textContent=title;
  document.getElementById("detailText").textContent=desc;
  const extra=document.getElementById("detailExtra");extra.innerHTML="";
  const p=document.createElement("p");p.textContent=limits;extra.appendChild(p);
- const tags=document.createElement("div");
  const typeLabels={root:"Autoridad soberana",ministry:"Gobierno civil",special:"Institución especial",clan:"Clan / territorio",palace:"Palacio interior",normal:"Cargo administrativo"};
- const pill=document.createElement("span");pill.className="pill";pill.textContent=typeLabels[n.type]||typeLabels.normal;tags.appendChild(pill);
+ const typeRow=document.createElement("div");
+ const pill=document.createElement("span");pill.className="pill type";pill.textContent=typeLabels[n.type]||typeLabels.normal;typeRow.appendChild(pill);
+ extra.appendChild(typeRow);
  if(n.children&&n.children.length){
    const p2=document.createElement("p");p2.style.marginTop="12px";p2.textContent="Dependencias o áreas relacionadas:";extra.appendChild(p2);
+   const tags=document.createElement("div");
    n.children.forEach(ch=>{const x=document.createElement("span");x.className="pill";x.textContent=ch.name;tags.appendChild(x)});
+   extra.appendChild(tags);
  }
- extra.appendChild(tags);
+ const link=linkFor(n);
+ if(link){
+   const target=sections.find(s=>s.id===link);
+   const btn=document.createElement("button");btn.type="button";btn.className="utility";btn.style.marginTop="14px";
+   btn.textContent="Abrir organigrama: "+target.label+" →";
+   btn.addEventListener("click",()=>showSection(link,true));
+   extra.appendChild(btn);
+ }
+ if(window.innerWidth<=850) document.getElementById("details").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 document.getElementById("expandAll").addEventListener("click",()=>{
- expanded=!expanded;document.getElementById("expandAll").textContent=expanded?"Vista compacta":"Mostrar detalles";
- const s=sections.find(x=>x.id===selected)||sections[0];
- const d=document.getElementById("diagram");d.innerHTML="";renderTree(s.root(),d);
+ expanded=!expanded;
+ document.getElementById("expandAll").textContent=expanded?"Vista compacta":"Mostrar detalles";
+ renderDiagram();
 });
 document.getElementById("printPage").addEventListener("click",()=>window.print());
-showSection("overview");
+buildNav();
+showSection("overview",false);
 </script>
 </body>
 </html>
